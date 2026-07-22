@@ -49,10 +49,10 @@ const QUESTIONS = [
     "Personalize the color theme and branding shown across the current Lightning application"
   ],a:0,e:"The App Launcher lets users move between apps and reach any tab, object, or item they have access to, even when it isn't pinned on the current app's navigation bar."},
   {c:"FUND",d:"Foundational",q:"Which environment is a free, full-featured org intended for building and testing rather than running a company's production data?",o:[
-    "Developer Edition, a free fully-featured org meant for building and testing rather than production",
-    "Enterprise Edition, a paid production org with advanced customization and broad API access",
-    "Partial Copy Sandbox, a refreshable environment seeded with a sampled subset of production data",
-    "Trailhead Playground, a personal org tied to your Trailhead profile for hands-on challenges"
+    "Developer Edition",
+    "Enterprise Edition",
+    "Partial Copy Sandbox",
+    "Trailhead Playground"
   ],a:0,e:"Developer Edition is a free, fully-featured org meant for development and learning. It is not licensed to run a business's live/production operations."},
   {c:"FUND",d:"Foundational",q:"Where does an administrator go to configure objects, fields, users, and automation?",o:[
     "The Reports tab, where administrators build, schedule, and export logs of all configuration changes",
@@ -175,7 +175,7 @@ const QUESTIONS = [
     "Automatically deploy change sets from sandbox to production on a set schedule"
   ],a:2,e:"Delegated admin groups let you assign narrow admin tasks (e.g., managing certain roles' users or specific objects) without full System Administrator access."},
   {c:"UMA",d:"Intermediate",q:"Which of these can OWN records such as cases or leads?",o:[
-    "A queue, which holds records like cases or leads for members to take from a shared pool",
+    "A queue, which holds unassigned work items that its members can claim and own",
     "A public group, whose members automatically become co-owners of shared records",
     "A permission set, which assigns ownership of records to everyone it is granted to",
     "A report folder, which owns the records surfaced by the reports stored inside it"
@@ -226,7 +226,7 @@ const QUESTIONS = [
     "Public Read/Write, which lets every user view and edit all of the records",
     "Private, which limits each record strictly to its owner and the role hierarchy",
     "Public Read Only, which lets all users view but only the owner edit records",
-    "Controlled by Parent, which ties the child's access entirely to its parent record"
+    "Controlled by Parent, the setting used for detail records in master-detail links"
   ],a:3,e:"'Controlled by Parent' ties the child's access to the parent record — the default and only option for the detail side of a master-detail relationship."},
   {c:"SEC",d:"Intermediate",q:"Field-Level Security (FLS) does which of the following?",o:[
     "Controls the order and grouping in which fields are arranged within each section of a page layout",
@@ -308,7 +308,7 @@ const QUESTIONS = [
   ],a:2,e:"Access starts at the OWD baseline, then is progressively opened by the role hierarchy, sharing rules, and manual/programmatic sharing."},
   {c:"MODEL",d:"Intermediate",q:"Which relationship type is 'tightly coupled', cascades delete from parent to child, and enables roll-up summary fields?",o:[
     "Lookup, a loosely coupled link whose child keeps its own owner and sharing settings",
-    "Master-detail, where the child inherits sharing, is deleted with the parent, and enables roll-ups",
+    "Master-detail, a binding relationship in which the child record cannot stand on its own",
     "Hierarchical, a self-referencing lookup used to relate a record to another record of the same kind",
     "External lookup, which points a child record to a row in an external data source"
   ],a:1,e:"Master-detail tightly links child to parent: the child inherits owner/sharing, is deleted when the parent is, and supports roll-up summaries on the parent."},
@@ -363,7 +363,7 @@ const QUESTIONS = [
   {c:"MODEL",d:"Advanced",q:"A hierarchical relationship is a special lookup available specifically on which object?",o:[
     "Account, where it links parent and child companies in a corporate hierarchy",
     "Opportunity, where it connects a deal to a related renewal or upsell deal",
-    "User, where the hierarchical relationship type relates a user to another user",
+    "User, where it links one person to another such as an employee to a manager",
     "Case, where it ties a case to a parent case for grouping related issues"
   ],a:2,e:"The hierarchical relationship type exists only on the User object (e.g., the standard 'Manager' field) and references other users."},
   {c:"MODEL",d:"Intermediate",q:"Schema Builder is used to:",o:[
@@ -472,7 +472,7 @@ const QUESTIONS = [
     "Approval Processes, now the primary way Salesforce recommends automating all logic",
     "Apex triggers, which Salesforce positions as the standard for declarative automation",
     "Outbound Messages, the modern replacement for both Workflow Rules and Process Builder",
-    "Flow, the go-forward declarative tool as Workflow Rules and Process Builder are retired"
+    "Flow, the declarative builder Salesforce now directs all new automation toward"
   ],a:3,e:"Flow is the go-forward declarative automation tool; Salesforce is retiring Workflow Rules and Process Builder and encourages migration to Flow."},
   {c:"AUTO",d:"Intermediate",q:"A Screen Flow is distinguished by the fact that it:",o:[
     "It runs only on a schedule with no user present to enter any data",
@@ -490,7 +490,7 @@ const QUESTIONS = [
     "After validation rules, once the record has passed every configured check",
     "After workflow rules run, re-triggering the record once all of those actions complete",
     "Only after the record is committed and the transaction has fully finished",
-    "Before validation rules, alongside before triggers, early in the order of execution"
+    "Before validation rules and before the object's triggers, near the start of the save"
   ],a:3,e:"Per Salesforce's order of execution, before-save flows (and before triggers) execute before custom validation rules evaluate."},
   {c:"AUTO",d:"Intermediate",q:"An approval process is used to:",o:[
     "Detect and merge duplicate account records that share the same company name",
@@ -525,11 +525,11 @@ const QUESTIONS = [
   {c:"AUTO",d:"Intermediate",q:"Which flow element is required to iterate over each item in a collection?",o:[
     "Decision, which evaluates conditions and routes the flow down a branch",
     "Assignment, which copies values into and between the flow's variables",
-    "Loop, which iterates over a collection variable one item at a time",
+    "Loop, which steps through a collection variable one entry at a time",
     "Subflow, which calls another autolaunched flow and waits for it to finish"
   ],a:2,e:"The Loop element iterates over a collection variable, processing one item per iteration."},
-  {c:"AUTO",d:"Advanced",q:"To reuse the same flow logic inside multiple flows, you would build it as an autolaunched flow and call it via a:",o:[
-    "A Subflow element that invokes another autolaunched flow for modular reuse",
+  {c:"AUTO",d:"Advanced",q:"To reuse the same flow logic inside multiple flows, you would build it as an autolaunched flow and call it via:",o:[
+    "A Subflow element, which invokes the shared logic from inside another flow",
     "A validation rule that the flow calls whenever it needs the shared logic",
     "A workflow rule referenced from each flow that needs the same behavior",
     "A report that each flow runs to obtain the shared calculation results"
@@ -618,7 +618,7 @@ const QUESTIONS = [
     "Assign permission sets to the users working a given marketing program",
     "Escalate unresolved cases to managers when a service level is breached"
   ],a:1,e:"Campaigns track marketing efforts, their members, costs, and influence on pipeline and revenue."},
-  {c:"SALES",d:"Intermediate",q:"'Path' on an opportunity or lead provides:",o:[
+  {c:"SALES",d:"Intermediate",q:"'Path' on an opportunity or lead is used to:",o:[
     "Encrypt the whole record so that only the users on the deal can read its field values",
     "List the duplicate records that match the current opportunity or lead",
     "Display a log of the deployments that have touched the record's object",
@@ -630,7 +630,7 @@ const QUESTIONS = [
     "Set the org-wide default sharing level for opportunities and accounts",
     "Create the products and price book entries the team will sell together"
   ],a:0,e:"Teams let you add users with defined roles and access levels to individual opportunities/accounts for collaboration."},
-  {c:"SALES",d:"Intermediate",q:"Contact Roles on an opportunity capture:",o:[
+  {c:"SALES",d:"Intermediate",q:"Contact Roles on an opportunity are used to:",o:[
     "Define the org's sharing model for the opportunity and its related records",
     "Capture which contacts are involved and the role each one plays in the deal",
     "Determine the profile assigned to each contact associated with the deal",
@@ -850,7 +850,7 @@ const QUESTIONS = [
     "Can be shared across records and users, versioned, and centrally managed",
     "Cannot be shared with anyone and stay tied to a single record only",
     "Are visible exclusively to system administrators and never to other users",
-    "Cannot be previewed in the browser and must be downloaded to open"
+    "Cannot be previewed in the browser and must be downloaded before opening"
   ],a:0,e:"Files support versioning, sharing across multiple records and people, and richer management than legacy attachments."},
   {c:"PROD",d:"Foundational",q:"A private Chatter group:",o:[
     "Requires an owner or manager to add or approve members, and its posts are not public",
@@ -901,7 +901,7 @@ const QUESTIONS = [
     "Unlimited, provided the queries are written outside of any loop"
   ],a:1,e:"A synchronous Apex transaction may issue up to 100 SOQL queries. Placing queries in loops is the classic way to blow this limit."},
   {c:"DEV",d:"Advanced",q:"The limit on DML statements per Apex transaction is:",o:[
-    "150, the maximum number of DML statements allowed per Apex transaction",
+    "150, which is why bulkified code updates records in a single collection",
     "50, a limit that would force heavy batching of every record change",
     "100, matching the synchronous limit that applies to SOQL queries",
     "500, the ceiling once the Bulk API processes the transaction in batches"
@@ -910,7 +910,7 @@ const QUESTIONS = [
     "10,000, a lower ceiling that applies only to asynchronous transactions",
     "100,000, the combined ceiling reached once multiple queries run in the same context",
     "5,000,000, matching the volume Data Loader can process in a single job",
-    "50,000, the total number of records a transaction can retrieve across its queries"
+    "50,000, beyond which the transaction fails with a governor limit exception"
   ],a:3,e:"A transaction can retrieve up to 50,000 records total across SOQL queries."},
   {c:"DEV",d:"Intermediate",q:"'Bulkification' of Apex means:",o:[
     "Running code only at night in scheduled batch jobs so as to spread the workload across off-peak hours",
@@ -964,7 +964,7 @@ const QUESTIONS = [
     "A validation rule, which checks each record as the batch job saves it",
     "A screen flow, which walks a user through the records a page at a time",
     "A page layout, which arranges the fields of each processed record",
-    "Batch Apex, which processes large data volumes in governor-friendly chunks"
+    "Batch Apex, which splits the work into scoped executions with fresh limits"
   ],a:3,e:"Batch Apex processes large data volumes in governor-limit-friendly chunks via start/execute/finish methods."},
   {c:"DEV",d:"Advanced",q:"A @future method has which key restriction?",o:[
     "It must be defined inside a trigger and cannot live in a regular class",
@@ -1346,9 +1346,9 @@ const QUESTIONS = [
   ],a:0,e:"Picklists constrain input to a predefined set of values, improving consistency and reporting compared with free-text fields."},
   {c:"MODEL",d:"Intermediate",q:"Compared with a standard Text field, a Long Text Area field:",o:[
     "Stores fewer characters but can be marked unique and indexed for fast matching",
-    "Stores far more characters over multiple lines but can't be an external ID or unique",
+    "Stores far more characters over multiple lines but can't be a unique or external ID field",
     "Holds only numeric input and supports roll-up summaries on the parent object",
-    "Encrypts its contents automatically so that only some profiles are able to read"
+    "Encrypts its contents automatically so that only some profiles are able to read them"
   ],a:1,e:"Long Text Area holds thousands of characters over multiple lines but can't be unique, an external ID, or required the way a Text field can."},
   {c:"MODEL",d:"Intermediate",q:"Which is generally TRUE about changing a custom field's data type after records exist?",o:[
     "Any field type at all can be changed into any other type without ever affecting the data",
@@ -1375,7 +1375,7 @@ const QUESTIONS = [
     "Be marked as an external ID so that records can be matched to a chosen parent"
   ],a:0,e:"Because detail records can't exist without a master, every child record must already reference a parent before a lookup can become master-detail."},
   {c:"MODEL",d:"Advanced",q:"A cross-object formula field can reference fields:",o:[
-    "On any object in the org regardless of whether a relationship exists between",
+    "On any object in the org regardless of whether a relationship exists between them",
     "On child records only, aggregating their values much like a roll-up summary",
     "On external objects but never on standard or custom Salesforce objects at all",
     "On parent records up the relationship chain, but not on child records below it"
@@ -1690,7 +1690,7 @@ const QUESTIONS = [
     "true, false, or null when it has not yet been assigned any value",
     "Any whole number, where zero means false and one means true",
     "A short piece of text such as 'yes' or 'no' entered by the user",
-    "A list of the records that were returned from a SOQL query run"
+    "A list of the records that a SOQL query returned when it was run"
   ],a:0,e:"Apex Booleans are true, false, or null (when unassigned); they aren't numeric or text values."},
   {c:"DEV",d:"Intermediate",q:"Trigger context variables like Trigger.isBefore and Trigger.isInsert are used to:",o:[
     "Increase the governor limits that are made available to the trigger's own transaction",
@@ -1942,6 +1942,11 @@ export default function SalesforceProficiencyExam() {
   // review filters
   const [reviewCat, setReviewCat] = useState("all");
   const [incorrectOnly, setIncorrectOnly] = useState(false);
+  const [flaggedOnly, setFlaggedOnly] = useState(false);
+
+  // Questions the user marked "highlight on my results" during the exam.
+  // Keyed by the per-session question id, same as `answers`.
+  const [flagged, setFlagged] = useState({});
 
   // the drawn test for this attempt: a fresh random subset of the bank,
   // re-drawn each time the exam starts (see startExam)
@@ -1963,6 +1968,14 @@ export default function SalesforceProficiencyExam() {
     setAnswers((a) => ({ ...a, [qid]: optIdx }));
   }, []);
 
+  const toggleFlag = useCallback((qid) => {
+    setFlagged((f) => {
+      const next = { ...f };
+      if (next[qid]) delete next[qid]; else next[qid] = true;
+      return next;
+    });
+  }, []);
+
   const goto = useCallback((idx) => {
     setCurrent(Math.max(0, Math.min(total - 1, idx)));
     if (scrollRef.current) scrollRef.current.scrollTop = 0;
@@ -1980,12 +1993,13 @@ export default function SalesforceProficiencyExam() {
       } else if (["a","b","c","d","e"].includes(e.key.toLowerCase())) {
         const i = e.key.toLowerCase().charCodeAt(0) - 97;
         if (i < q.o.length || i === UNSURE) select(q.id ?? current, i);
-      } else if (e.key === "ArrowRight") { goto(current + 1); }
+      } else if (e.key.toLowerCase() === "h") { toggleFlag(q.id ?? current); }
+      else if (e.key === "ArrowRight") { goto(current + 1); }
       else if (e.key === "ArrowLeft") { goto(current - 1); }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [phase, current, confirmSubmit, select, goto, questions]);
+  }, [phase, current, confirmSubmit, select, goto, questions, toggleFlag]);
 
   const results = useMemo(() => {
     let correct = 0, unsure = 0, skipped = 0;
@@ -2010,11 +2024,11 @@ export default function SalesforceProficiencyExam() {
 
   const startExam = () => {
     setQuestions(withIds(drawExam())); // fresh random draw for this attempt
-    setAnswers({}); setCurrent(0); setPhase("exam");
+    setAnswers({}); setFlagged({}); setCurrent(0); setPhase("exam");
   };
   const restart = () => {
-    setAnswers({}); setCurrent(0); setPhase("intro");
-    setReviewCat("all"); setIncorrectOnly(false); setConfirmSubmit(false);
+    setAnswers({}); setFlagged({}); setCurrent(0); setPhase("intro");
+    setReviewCat("all"); setIncorrectOnly(false); setFlaggedOnly(false); setConfirmSubmit(false);
   };
 
   const submit = () => { setPhase("results"); setConfirmSubmit(false); if (scrollRef.current) scrollRef.current.scrollTop = 0; };
@@ -2061,6 +2075,7 @@ export default function SalesforceProficiencyExam() {
             <p>• Select answers by clicking or with keys <Kbd>1</Kbd>–<Kbd>4</Kbd> / <Kbd>A</Kbd>–<Kbd>D</Kbd>.</p>
             <p>• Unanswered questions count as incorrect. You can submit at any time.</p>
             <p>• Not sure? Choose <span className="text-amber-300">E — Unsure</span> instead of guessing. It never counts as correct, but it's reported separately so a lucky guess doesn't inflate your score.</p>
+            <p>• Tick <span className="text-sky-300">★ Highlight this question on my results</span> (or press H) on anything you want to revisit — those get pinned to the top of the review, right or wrong.</p>
             <p>• After submitting, review every question and filter by domain or by incorrect answers.</p>
             <p>• Each attempt is a fresh draw — retake it and you'll get a different version.</p>
           </div>
@@ -2150,6 +2165,27 @@ export default function SalesforceProficiencyExam() {
             </button>
           </div>
 
+          {/* Mark for post-exam review — independent of the answer given */}
+          <label
+            className={
+              "mt-5 inline-flex items-center gap-2.5 cursor-pointer select-none rounded-lg border px-3 py-2 transition-colors " +
+              (flagged[q.id]
+                ? "border-sky-400/50 bg-sky-500/10 text-sky-200"
+                : "border-white/10 bg-white/5 text-slate-400 hover:text-slate-200 hover:border-white/20")
+            }
+          >
+            <input
+              type="checkbox"
+              checked={!!flagged[q.id]}
+              onChange={() => toggleFlag(q.id)}
+              className="h-4 w-4 rounded border-white/30 bg-transparent accent-sky-400"
+            />
+            <span className="text-sm">
+              {flagged[q.id] ? "★" : "☆"} Highlight this question on my results
+            </span>
+            <span className="text-xs font-mono text-slate-500 hidden sm:inline">(H)</span>
+          </label>
+
           <div className="mt-8 flex items-center justify-between gap-3">
             <button
               onClick={() => goto(current - 1)}
@@ -2194,14 +2230,16 @@ export default function SalesforceProficiencyExam() {
                   const pick = answers[qq.id];
                   const isAnswered = pick !== undefined;
                   const isUnsure = pick === UNSURE;
+                  const isFlagged = !!flagged[qq.id];
                   const isCur = i === current;
                   return (
                     <button
                       key={qq.id}
                       onClick={() => { goto(i); }}
-                      title={CATEGORIES[qq.c].short + (isUnsure ? " · marked unsure" : "")}
+                      title={CATEGORIES[qq.c].short + (isUnsure ? " · marked unsure" : "") + (isFlagged ? " · highlighted" : "")}
                       className={
-                        "h-8 rounded text-xs font-mono tabular-nums transition-colors " +
+                        "relative h-8 rounded text-xs font-mono tabular-nums transition-colors " +
+                        (isFlagged ? "ring-1 ring-sky-400 " : "") +
                         (isCur
                           ? "bg-indigo-400 text-slate-900 font-bold ring-2 ring-indigo-300"
                           : isUnsure
@@ -2267,11 +2305,19 @@ export default function SalesforceProficiencyExam() {
     return pb - pa;
   });
 
-  const reviewList = questions.filter((q) => {
-    if (reviewCat !== "all" && q.c !== reviewCat) return false;
-    if (incorrectOnly && answers[q.id] === q.a) return false;
-    return true;
-  });
+  const flaggedCount = questions.reduce((n, q) => n + (flagged[q.id] ? 1 : 0), 0);
+
+  const reviewList = questions
+    .filter((q) => {
+      if (reviewCat !== "all" && q.c !== reviewCat) return false;
+      if (flaggedOnly && !flagged[q.id]) return false;
+      // A highlighted question is never hidden by the "missed only" filter —
+      // the user explicitly asked to see it again.
+      if (incorrectOnly && !flagged[q.id] && answers[q.id] === q.a) return false;
+      return true;
+    })
+    // Highlighted first; Array.sort is stable, so everything else keeps exam order.
+    .sort((a, b) => (flagged[b.id] ? 1 : 0) - (flagged[a.id] ? 1 : 0));
 
   return (
     <Shell>
@@ -2370,16 +2416,36 @@ export default function SalesforceProficiencyExam() {
         <div id="review-anchor" className="mt-12 pt-2">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
             <h3 className="text-sm font-mono uppercase tracking-widest text-slate-400">Question review</h3>
-            <label className="inline-flex items-center gap-2 text-sm text-slate-300 cursor-pointer select-none">
-              <input
-                type="checkbox"
-                checked={incorrectOnly}
-                onChange={(e) => setIncorrectOnly(e.target.checked)}
-                className="h-4 w-4 rounded border-white/30 bg-transparent accent-rose-500"
-              />
-              Show missed only (incl. unsure)
-            </label>
+            <div className="flex flex-wrap items-center gap-4">
+              {flaggedCount > 0 && (
+                <label className="inline-flex items-center gap-2 text-sm text-slate-300 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={flaggedOnly}
+                    onChange={(e) => setFlaggedOnly(e.target.checked)}
+                    className="h-4 w-4 rounded border-white/30 bg-transparent accent-sky-400"
+                  />
+                  <span className="text-sky-300">★</span> Highlighted only ({flaggedCount})
+                </label>
+              )}
+              <label className="inline-flex items-center gap-2 text-sm text-slate-300 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={incorrectOnly}
+                  onChange={(e) => setIncorrectOnly(e.target.checked)}
+                  className="h-4 w-4 rounded border-white/30 bg-transparent accent-rose-500"
+                />
+                Show missed only (incl. unsure)
+              </label>
+            </div>
           </div>
+
+          {flaggedCount > 0 && (
+            <p className="-mt-2 mb-5 text-xs text-slate-400">
+              <span className="text-sky-300">★</span> {flaggedCount} question{flaggedCount === 1 ? "" : "s"} you highlighted{" "}
+              {flaggedCount === 1 ? "is" : "are"} pinned to the top, whether answered correctly or not.
+            </p>
+          )}
 
           <div className="flex flex-wrap gap-1.5 mb-6">
             <FilterPill active={reviewCat === "all"} onClick={() => setReviewCat("all")}>
@@ -2403,7 +2469,7 @@ export default function SalesforceProficiencyExam() {
               </div>
             )}
             {reviewList.map((q) => (
-              <ReviewCard key={q.id} q={q} chosen={answers[q.id]} />
+              <ReviewCard key={q.id} q={q} chosen={answers[q.id]} flagged={!!flagged[q.id]} />
             ))}
           </div>
         </div>
@@ -2483,7 +2549,7 @@ function Modal({ children, onClose }) {
   );
 }
 
-function ReviewCard({ q, chosen }) {
+function ReviewCard({ q, chosen, flagged }) {
   const [open, setOpen] = useState(false);
   const unanswered = chosen === undefined;
   const isUnsure = chosen === UNSURE;
@@ -2499,8 +2565,15 @@ function ReviewCard({ q, chosen }) {
   const statusText = unanswered ? "Skipped" : isUnsure ? "Unsure" : isCorrect ? "Correct" : "Incorrect";
 
   return (
-    <div className={"rounded-xl border bg-white/5 overflow-hidden " + (isCorrect ? "border-emerald-500/20" : isUnsure ? "border-amber-500/25" : unanswered ? "border-white/10" : "border-rose-500/25")}>
+    <div className={
+      "rounded-xl border bg-white/5 overflow-hidden " +
+      (flagged ? "ring-1 ring-sky-400/50 " : "") +
+      (isCorrect ? "border-emerald-500/20" : isUnsure ? "border-amber-500/25" : unanswered ? "border-white/10" : "border-rose-500/25")
+    }>
       <button onClick={() => setOpen((o) => !o)} className="w-full text-left px-4 py-3.5 flex items-start gap-3 hover:bg-white/5 transition-colors">
+        {flagged && (
+          <span className="mt-0.5 text-xs font-mono uppercase tracking-wider px-2 py-0.5 rounded border flex-none bg-sky-500/20 text-sky-300 border-sky-400/30">★ Highlighted</span>
+        )}
         <span className={"mt-0.5 text-xs font-mono uppercase tracking-wider px-2 py-0.5 rounded border flex-none " + statusChip}>{statusText}</span>
         <span className="flex-1 text-sm text-slate-100 leading-snug">{q.q}</span>
         <span className="text-slate-500 flex-none mt-0.5">{open ? "▲" : "▼"}</span>
