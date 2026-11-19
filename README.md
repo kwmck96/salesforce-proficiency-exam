@@ -1,7 +1,7 @@
 # Salesforce Proficiency Exam
 
 A single-page React app (Vite + Tailwind). Each attempt draws a fresh ~180-question
-exam from a 300-question bank, keeping a fixed even spread across categories and
+exam from a 352-question bank, keeping a fixed even spread across categories and
 difficulties. Scored overall, broken down by domain, and mapped to a proficiency tier.
 
 ## Run locally
