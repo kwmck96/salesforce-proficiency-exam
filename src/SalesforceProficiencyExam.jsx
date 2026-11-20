@@ -21,6 +21,7 @@ const CATEGORIES = {
   DEV:      { label: "Custom Development (Apex/LWC/SOQL)",  short: "Development" },
   INT:      { label: "Integration & APIs",                 short: "Integration" },
   DEPLOY:   { label: "Deployment & Lifecycle",             short: "Deployment" },
+  AI:       { label: "Agentforce & AI",                    short: "AI" },
 };
 
 // Ascending prestige. Threshold = minimum overall % to earn the tier.
@@ -468,12 +469,12 @@ const QUESTIONS = [
     "Reports automatically detect and clean up bad data every single time that they are refreshed",
     "Required fields, validation rules, and duplicate rules together enforce integrity at entry"
   ],a:3,e:"Data integrity is enforced through a combination of required fields, validation rules, picklists, and duplicate management at the point of entry."},
-  {c:"AUTO",d:"Intermediate",q:"Which tool is Salesforce's current, strategic automation platform (with Workflow Rules and Process Builder being retired/migrated)?",o:[
+  {c:"AUTO",d:"Intermediate",q:"Which tool is Salesforce's strategic automation platform now that Workflow Rules and Process Builder have reached end of support?",o:[
     "Approval Processes, now the primary way Salesforce recommends automating all logic",
     "Apex triggers, which Salesforce positions as the standard for declarative automation",
     "Outbound Messages, the modern replacement for both Workflow Rules and Process Builder",
     "Flow, the declarative builder Salesforce now directs all new automation toward"
-  ],a:3,e:"Flow is the go-forward declarative automation tool; Salesforce is retiring Workflow Rules and Process Builder and encourages migration to Flow."},
+  ],a:3,e:"Flow is the go-forward declarative automation tool. Workflow Rules and Process Builder reached end of support on December 31, 2025: existing automations may keep running, but Salesforce no longer supports them or fixes their bugs, so they should be migrated to Flow."},
   {c:"AUTO",d:"Intermediate",q:"A Screen Flow is distinguished by the fact that it:",o:[
     "It runs only on a schedule with no user present to enter any data",
     "It can be launched only from a record trigger when a record changes",
@@ -500,10 +501,10 @@ const QUESTIONS = [
   ],a:3,e:"Approval processes define submission criteria, approval steps/approvers, and actions on approval, rejection, or recall."},
   {c:"AUTO",d:"Intermediate",q:"Which is a valid trigger type for a record-triggered flow?",o:[
     "When a report is run, so the flow can act on each row in the results",
-    "When a record is created, updated, or deleted, and optionally on undelete",
+    "When a record is created, updated, or deleted, as set on the Start element",
     "When a dashboard is refreshed, so the flow can react to the new totals",
     "When a user logs in, so the flow can validate their session and location"
-  ],a:1,e:"Record-triggered flows fire on record create, update, delete (and can also handle the record being saved conditions)."},
+  ],a:1,e:"Record-triggered flows can run when a record is created, updated, created or updated, or deleted. Unlike Apex triggers, they can't run on undelete (a record restored from the Recycle Bin)."},
   {c:"AUTO",d:"Advanced",q:"A 'scheduled path' in a record-triggered flow lets you:",o:[
     "Run the entire flow immediately and only in the same synchronous transaction",
     "Execute part of the flow at a set time after the trigger, such as three days later",
@@ -539,7 +540,7 @@ const QUESTIONS = [
     "Outbound message, a workflow action that sends a SOAP message to an endpoint",
     "Field update, a workflow action that changes a field value on the record",
     "Task creation, a workflow action that assigns a follow-up task to a user"
-  ],a:1,e:"Outbound messages (a workflow action) send a SOAP message to a designated external endpoint. In Flow, callouts are handled differently."},
+  ],a:1,e:"Outbound messages (a legacy workflow action) send a SOAP message to a designated external endpoint. After-save record-triggered flows can also send outbound messages as an action, which eases migration off workflow rules."},
   {c:"AUTO",d:"Advanced",q:"A record-triggered flow that performs SOQL/DML inside a loop for each record risks:",o:[
     "Better performance, since each record is handled in its own tidy iteration",
     "Automatically bulkifying itself, so the platform consolidates the operations",
@@ -821,7 +822,7 @@ const QUESTIONS = [
     "A deployment tool for moving metadata between sandbox and production",
     "A reporting engine for building charts and dashboards from records",
     "A collaboration tool with feeds, groups, following, and @mentions"
-  ],a:3,e:"Chatter is Salesforce's enterprise collaboration layer: feeds on records, groups, following, @mentions, and posts."},
+  ],a:3,e:"Chatter is Salesforce's enterprise collaboration layer: feeds on records, groups, following, @mentions, and posts. Since Summer '26 it is off by default in newly created orgs and is turned on in Chatter Settings."},
   {c:"PROD",d:"Intermediate",q:"In Salesforce, 'Activities' encompass which two record types?",o:[
     "Cases and Solutions, used to log and resolve customer issues",
     "Leads and Opportunities, used to track prospects and deals",
@@ -959,7 +960,7 @@ const QUESTIONS = [
     "Grants the Modify All Data permission to the code for the transaction",
     "Enforces the current user's record-level sharing rules while the class runs",
     "Runs the class only within test methods and not in normal execution"
-  ],a:2,e:"'with sharing' respects the running user's sharing rules; 'without sharing' ignores them; 'inherited sharing' takes the caller's context."},
+  ],a:2,e:"'with sharing' respects the running user's sharing rules; 'without sharing' ignores them; 'inherited sharing' takes the caller's context. From API version 67.0 (Summer '26), a class with no sharing keyword defaults to with sharing."},
   {c:"DEV",d:"Advanced",q:"Which is an asynchronous Apex mechanism suited to processing millions of records in chunks?",o:[
     "A validation rule, which checks each record as the batch job saves it",
     "A screen flow, which walks a user through the records a page at a time",
@@ -1026,12 +1027,12 @@ const QUESTIONS = [
     "Publish near-real-time change events for records so external subscribers stay in sync",
     "Schedule reports that summarize how records changed over a time period"
   ],a:2,e:"CDC streams record change events so external systems can keep data in sync without polling."},
-  {c:"INT",d:"Intermediate",q:"A Connected App combined with OAuth 2.0 is used to:",o:[
+  {c:"INT",d:"Intermediate",q:"An External Client App (the successor to Connected Apps) combined with OAuth 2.0 is used to:",o:[
     "Store CSV files that an external application uploads to Salesforce for later batch processing",
     "Build dashboards that visualize data pulled from an external application",
     "Securely authorize an external application to access Salesforce APIs on a user's behalf",
     "Assign profiles and permission sets to users of an external application"
-  ],a:2,e:"Connected Apps define OAuth settings so external apps can authenticate and obtain scoped access tokens to Salesforce."},
+  ],a:2,e:"External Client Apps (and the Connected Apps they replace) define OAuth settings so external apps can authenticate and obtain scoped access tokens. New connected app creation has been disabled by default since Spring '26, and Salesforce ends connected app support in Summer '27."},
   {c:"INT",d:"Advanced",q:"Named Credentials are recommended for Apex callouts because they:",o:[
     "Store the endpoint and authentication together, so credentials aren't hardcoded and auth is automatic",
     "Bypass all of the platform's security controls so the callout can reach any external endpoint at all",
@@ -1067,7 +1068,7 @@ const QUESTIONS = [
     "A SOAP message delivered to a specified external endpoint",
     "An email containing the record's details to a list of users",
     "A dashboard summarizing the records that met the criteria"
-  ],a:1,e:"Outbound messages transmit a SOAP message with field values to a designated endpoint when workflow criteria are met."},
+  ],a:1,e:"Outbound messages transmit a SOAP message with field values to a designated endpoint when workflow criteria are met. After-save record-triggered flows can send them too."},
   {c:"INT",d:"Advanced",q:"The Metadata API is used primarily to:",o:[
     "Query and update customer records such as accounts, contacts, leads, cases, and opportunities",
     "Send transactional and marketing email to customers from the platform",
@@ -1465,11 +1466,11 @@ const QUESTIONS = [
     "Save the changes anyway but flag the record for an administrator to review"
   ],a:0,e:"An unhandled fault rolls back the transaction's database changes; a fault path lets you handle the error more gracefully instead."},
   {c:"AUTO",d:"Intermediate",q:"When several record-triggered flows run on the same object and event, you can control their sequence with:",o:[
-    "The alphabetical order of the flows' API names, which the platform enforces",
+    "The flows' API versions, with the newest API version always running first",
     "The role of the user who happened to save the record that fired the flows",
     "A trigger order value set on each flow so they run in a defined order",
-    "The order in which the flows were originally created within the org itself"
-  ],a:2,e:"Each record-triggered flow has a trigger order number; flows on the same object/event run in ascending order (ties fall back to creation order)."},
+    "The order in which users last opened each of the flows in Flow Builder"
+  ],a:2,e:"Each record-triggered flow can have a trigger order value; flows with the same object and run timing (before-save or after-save) run in ascending order. Flows sharing a value run alphabetically by API name, and flows with no value run afterward by creation date. Flow Trigger Explorer shows and reorders them."},
   {c:"AUTO",d:"Advanced",q:"A platform event-triggered flow runs when:",o:[
     "A user clicks a custom button that has been placed on a record page",
     "A record is created or updated and happens to meet the entry criteria",
@@ -1739,7 +1740,7 @@ const QUESTIONS = [
     "Allow the test method to call the live external endpoint directly and then assert its response",
     "Wrap the callout inside Test.startTest so that the real request is permitted",
     "Disable the callout in production but leave it running during the test method"
-  ],a:0,e:"Apex tests can't make real callouts; you implement HttpCalloutMock (or WebServiceMock) and register it with Test.setMock to simulate responses."},
+  ],a:0,e:"Apex unit tests can't make real callouts; you implement HttpCalloutMock (or WebServiceMock) and register it with Test.setMock to simulate responses. (A Winter '27 developer preview, @IntegrationTest, allows real HTTP calls in scratch orgs only.)"},
   {c:"DEV",d:"Advanced",q:"A common way to prevent an Apex trigger from re-entering itself and looping is to:",o:[
     "Use a static Boolean flag that guards the logic from running twice per transaction",
     "Move all of the trigger's SOQL queries to run inside of a large for loop",
@@ -1819,11 +1820,11 @@ const QUESTIONS = [
     "Change sets move the data records, while SFDX moves only the metadata"
   ],a:1,e:"Change sets are declarative deployments between connected orgs; the Salesforce CLI/SFDX supports source-driven, version-controlled deployments."},
   {c:"DEPLOY",d:"Intermediate",q:"When deploying to production, the 'Run Local Tests' option:",o:[
-    "Runs the tests in your org but skips tests from installed managed packages",
+    "Runs your org's tests but skips those from installed managed and unlocked packages",
     "Runs no tests whatsoever so that the deployment finishes much faster",
     "Runs only the single test class that you select for that one deployment",
     "Runs every test in every org that is connected by a deployment link"
-  ],a:0,e:"Run Local Tests executes all tests in your namespace/org but excludes managed-package tests; Run All Tests includes those too."},
+  ],a:0,e:"Run Local Tests runs every test in the org except those that come from installed managed and unlocked packages; Run All Tests includes those too. Spring '26 added a beta RunRelevantTests level that picks tests based on the deployment payload."},
   {c:"DEPLOY",d:"Intermediate",q:"Refreshing a sandbox does what to its contents?",o:[
     "Merges the sandbox's changes back into the production org automatically",
     "Replaces it with a fresh copy of production, discarding prior sandbox changes",
@@ -1841,23 +1842,338 @@ const QUESTIONS = [
     "After deploying to production, since sandboxes are unable to run tests",
     "Only when the org's overall code coverage has already dropped below 75%",
     "On each change before it is promoted, so regressions are caught early"
-  ],a:3,e:"CI/CD runs automated validation and tests on each committed change so problems surface before promotion to the next environment."}
+  ],a:3,e:"CI/CD runs automated validation and tests on each committed change so problems surface before promotion to the next environment."},
+
+  /* ---- Added Nov 2026: Spring '26 – Winter '27 features and the Agentforce & AI domain ---- */
+  {c:"AI",d:"Foundational",q:"Agentforce is best described as Salesforce's platform for:",o:[
+    "Building static dashboards that summarize CRM data for executive review",
+    "Replacing the role hierarchy with AI-generated record sharing decisions",
+    "Building AI agents that reason over CRM data and take actions for users",
+    "Translating Setup pages into each user's language with machine models"
+  ],a:2,e:"Agentforce lets you build and deploy AI agents that understand requests, reason over your Salesforce data, and take actions (through flows, Apex, prompt templates, and APIs) for employees or customers."},
+  {c:"AI",d:"Foundational",q:"In October 2025 Salesforce renamed Data Cloud. What is it called now?",o:[
+    "Tableau Next",
+    "Data 360",
+    "Customer 360 Audiences",
+    "Einstein Studio"
+  ],a:1,e:"Data Cloud became Data 360 at Dreamforce 2025, under the Agentforce 360 umbrella. Customer 360 Audiences was one of its much earlier names; Tableau Next is a separate analytics product, and Einstein Studio is a model-management tool rather than the platform's name."},
+  {c:"AI",d:"Foundational",q:"Prompt Builder lets an admin:",o:[
+    "Train a custom large language model on the org's records from scratch",
+    "Write Apex that calls an outside AI service with no setup at all needed",
+    "Schedule reports that are summarized by AI and emailed to subscribers",
+    "Create reusable prompt templates that merge CRM data into the prompt"
+  ],a:3,e:"Prompt Builder creates and manages prompt templates (Sales Email, Field Generation, Record Summary, Flex) that merge Salesforce data into the prompt before it is sent to a model through the Trust Layer."},
+  {c:"AI",d:"Foundational",q:"In generative AI, 'grounding' a prompt means:",o:[
+    "Adding relevant business data and context so the answer fits your org",
+    "Shortening the prompt to its minimum length so it is processed cheaply",
+    "Cutting the model off from the internet so that it can never browse",
+    "Running the prompt twice and keeping whichever answer returned first"
+  ],a:0,e:"Grounding supplies the model with relevant data (record fields, related records, knowledge) that the user is allowed to see, so responses are specific and accurate instead of generic or invented."},
+  {c:"AI",d:"Intermediate",q:"Beginning in April 2026, what does Salesforce call the agent building blocks formerly known as 'topics'?",o:[
+    "Skills",
+    "Playbooks",
+    "Subagents",
+    "Intents"
+  ],a:2,e:"Agent topics were renamed subagents in April 2026, with no change in functionality. A subagent is a job the agent can do, with its own description, instructions, and actions."},
+  {c:"AI",d:"Intermediate",q:"Within an Agentforce subagent, 'actions' are:",o:[
+    "Greetings the agent displays before the user has typed a first message",
+    "Tasks the agent can run, such as a flow, invocable Apex, or a prompt",
+    "Permission sets the agent assigns to users who ask it for more access",
+    "Report filters the agent applies before it summarizes any CRM records"
+  ],a:1,e:"Actions are the units of work a subagent can perform: flows, invocable Apex, prompt templates, or API calls. The reasoning engine chooses among them using their names, descriptions, and the subagent's instructions."},
+  {c:"AI",d:"Intermediate",q:"Which prompt template type is designed to write its generated text into a specific field on a record?",o:[
+    "Sales Email",
+    "Record Summary",
+    "Flex",
+    "Field Generation"
+  ],a:3,e:"Field Generation templates are tied to a record field and return generated text into it (for example, an AI case summary field). Sales Email drafts emails, Record Summary summarizes a record, and Flex covers custom use cases."},
+  {c:"AI",d:"Intermediate",q:"The Einstein Trust Layer's 'zero data retention' commitment means that third-party LLM providers:",o:[
+    "Don't store prompts or responses, or use them to train their models",
+    "Delete the org's CRM records after an AI answer has been delivered",
+    "Keep prompts for exactly 30 days and then purge them from storage",
+    "Read data only from a sandbox copy and never touch production data"
+  ],a:0,e:"Under zero data retention agreements, prompts and generated responses sent to external model providers aren't stored or used for training. Other Trust Layer protections include toxicity detection and an audit trail."},
+  {c:"AI",d:"Intermediate",q:"Agentforce Testing Center is primarily used to:",o:[
+    "Run Apex unit tests that measure coverage for agent-related classes",
+    "Load-test the org's API limits by firing thousands of parallel calls",
+    "Batch-test utterances against an agent's expected subagents and actions",
+    "Let end users rate each agent answer with a thumbs-up or thumbs-down"
+  ],a:2,e:"Testing Center runs many test cases at once. Each case supplies an utterance and can specify the expected subagent, actions, and response, which are scored so you can catch regressions before deploying an agent."},
+  {c:"AI",d:"Intermediate",q:"A Flex prompt template is the right choice when:",o:[
+    "You only need to fill one record field with AI-generated text, nothing more",
+    "No other template type fits and you need to define your own input resources",
+    "You need the prompt to reach the LLM without passing through the Trust Layer",
+    "You want the template to skip the running user's field-level security rules"
+  ],a:1,e:"Flex templates handle generative use cases the specialized types (Sales Email, Field Generation, Record Summary) don't, and let you define your own inputs, such as several records passed in from a flow."},
+  {c:"AI",d:"Intermediate",q:"Setup with Agentforce, now generally available, helps administrators by:",o:[
+    "Approving every pending release update automatically on the admin's behalf",
+    "Replacing Setup entirely, so the org can be configured only through chat",
+    "Granting the admin Modify All Data whenever they ask it for help on a task",
+    "Using plain-language requests to configure the org and debug user access"
+  ],a:3,e:"Setup with Agentforce is a conversational assistant in Setup that can carry out configuration tasks (such as creating related lists or managing users) and help troubleshoot permission and access issues. Setup itself remains available."},
+  {c:"AI",d:"Intermediate",q:"A flow needs AI-generated text for a record partway through its logic. How can it use a prompt template?",o:[
+    "Call the prompt template as an action and use its response later on",
+    "Paste the prompt text into a formula resource that sends it to the model",
+    "Add a Screen element first, since templates run only with a user present",
+    "It can't; prompt templates run only from buttons on Lightning record pages"
+  ],a:0,e:"Prompt templates are available as flow actions: the flow passes the inputs, receives the generated response, and can assign it to a field or use it in later elements."},
+  {c:"AI",d:"Advanced",q:"Agent Script, used in Agentforce Builder, is valuable because it:",o:[
+    "Compiles an agent into Apex so it runs without any large language model",
+    "Encrypts agent conversations so admins can never see what users asked",
+    "Combines natural-language instructions with deterministic if/else logic",
+    "Lets an agent skip its guardrails whenever a request is flagged urgent"
+  ],a:2,e:"Agent Script blends LLM-interpreted instructions with programmatic expressions (conditions, variables, forced action sequences, and subagent transitions) so business rules run predictably instead of depending only on the model's interpretation."},
+  {c:"AI",d:"Advanced",q:"An agent keeps choosing the wrong action for a request. Which change most directly improves action selection?",o:[
+    "Raise the org's daily API request limit so the agent can try more actions",
+    "Give each action a clear, distinct name, description, and instructions",
+    "Move every action into one subagent that has no instructions whatsoever",
+    "Add a validation rule to each object that the agent's actions update"
+  ],a:1,e:"The reasoning engine routes requests and picks actions largely from their names, descriptions, and instructions. Vague or overlapping descriptions cause misrouting; clear, distinct ones (plus deterministic logic in Agent Script where needed) fix it."},
+  {c:"AI",d:"Advanced",q:"To make custom Apex logic available as an Agentforce agent action, the Apex method is typically:",o:[
+    "Annotated @InvocableMethod, just like Apex exposed to Flow as an action",
+    "Annotated @future so the agent can call it in the background as needed",
+    "Declared in a trigger on the object the agent is helping a user work on",
+    "Written as a Visualforce controller extension shown in the agent panel"
+  ],a:0,e:"Agent actions reuse the invocable framework that Flow uses: an @InvocableMethod (with @InvocableVariable inputs and outputs) can be added as an agent action, and its description helps the agent decide when to call it."},
+  {c:"AI",d:"Advanced",q:"A customer-facing service agent must look up order records. Whose access governs the data the agent can reach?",o:[
+    "The anonymous customer's, which lets the agent read any record it wants",
+    "The System Administrator's, since agents always run with full org access",
+    "Whichever internal user last edited and saved the agent in the builder",
+    "The dedicated agent user's, through the permission sets you assign it"
+  ],a:3,e:"Service agents run as a dedicated agent user, so the objects, fields, and records they can reach come from the permission sets and sharing assigned to that user. Employee agents act with the logged-in user's access instead."},
+  {c:"AI",d:"Advanced",q:"Which Einstein Trust Layer capability gives admins a record of prompts, responses, and safety scores for governance review?",o:[
+    "Dynamic grounding, which merges CRM data into the prompt at runtime",
+    "Zero data retention, which stops model providers storing the prompt",
+    "The audit trail, which logs AI interactions and their toxicity scores",
+    "Prompt defense, which adds instructions that resist prompt injection"
+  ],a:2,e:"The audit trail records generative AI activity, including prompts, responses, and toxicity scores, so teams can monitor and govern AI use. The other options are real Trust Layer features that do different jobs."},
+  {c:"AI",d:"Advanced",q:"In a multi-agent design, a single 'front-door' agent typically:",o:[
+    "Answers every request on its own so that no other agent is ever called",
+    "Routes each request to specialist agents working behind the scenes",
+    "Sends the request to all agents at once and keeps the fastest reply",
+    "Makes the customer pick which specialist agent they want to talk to"
+  ],a:1,e:"Multi-agent orchestration lets one entry agent hand work to specialist agents connected as subagents, so the user talks to one agent while focused agents handle each domain."},
+  {c:"UMA",d:"Intermediate",q:"Once the Profile Filtering release update is enforced (Winter '27), what can a typical user see about profiles?",o:[
+    "Every profile in the org, as long as the user has API access enabled",
+    "No profile names at all, not even the profile assigned to themselves",
+    "Only profiles of users who report to them in the role hierarchy",
+    "Only their own profile, unless they hold View All Profiles"
+  ],a:3,e:"Profile filtering limits users to their own profile name unless they're granted View All Profiles. It arrived in Summer '26 and is enforced in Winter '27, so Apex, flows, and integrations that query other users' profiles should be tested."},
+  {c:"UMA",d:"Intermediate",q:"A release update adds a dedicated 'View Setup Audit Trail' permission. What does it let admins do?",o:[
+    "Grant audit trail access without also granting broader View Setup",
+    "Edit or delete audit trail entries to clean mistakes out of the log",
+    "Keep audit trail history forever for a selected set of named users",
+    "Stream every Setup change to an external SIEM tool in real time"
+  ],a:0,e:"The View Setup Audit Trail permission controls access to Setup Audit Trail on its own. Salesforce enables it automatically where View Setup already exists, so current access is preserved; new profiles and permission sets need it granted. Enforcement is scheduled for Spring '27."},
+  {c:"UMA",d:"Advanced",q:"With field history tracking for the User object now generally available (Winter '27), an admin can:",o:[
+    "Track every field on the User object, with no cap on how many fields",
+    "Track User field changes, but only for users on an admin profile",
+    "Track up to 20 User fields, such as manager or role, for auditing",
+    "Restore a user's previous field values directly from the history"
+  ],a:2,e:"Winter '27 makes User field history tracking generally available: up to 20 User fields can be tracked, which helps audit changes such as role, profile, or manager. History records changes; it doesn't restore old values."},
+  {c:"SEC",d:"Intermediate",q:"By default, what happens to manual shares when a record changes owner, and what did Winter '27 add?",o:[
+    "They're always kept; Winter '27 adds a setting to drop them on transfer",
+    "They're removed; a new org-wide setting can keep them through transfers",
+    "They pass to the new owner's manager; Winter '27 makes that optional",
+    "They're kept only for queues; Winter '27 extends that to public groups"
+  ],a:1,e:"Changing ownership has always deleted manual shares. Winter '27 adds 'Keep manual shares when transferring records' in Sharing Settings. It's off by default and applies org-wide rather than per record, so review who would keep access before enabling it."},
+  {c:"SEC",d:"Intermediate",q:"The Field Access feature added to Object Manager in Summer '26 lets an admin:",o:[
+    "See how one field's access is granted across profiles and permission sets",
+    "Encrypt a field's values at rest without buying Shield Platform Encryption",
+    "Hide a field from page layouts while leaving field-level security as is",
+    "Grant a field to all users at once, overriding existing field security"
+  ],a:0,e:"Field Access gives one view of who can read or edit a field and through which profiles, permission sets, and permission set groups, instead of clicking through many Setup pages to audit field-level security."},
+  {c:"FUND",d:"Advanced",q:"An admin enables 'Remove list view inline edit dependencies on page layout' (Winter '27). What then decides which fields users can inline-edit in list views?",o:[
+    "The page layout, which still lists the only fields editable inline",
+    "The list view's owner, who picks the editable columns for everyone",
+    "Field and object permissions, so audit access before turning it on",
+    "Nothing; every column becomes editable for every user in the org"
+  ],a:2,e:"With the setting on, users can inline-edit any field they have access to, even one that isn't on the layout. A companion setting allows inline editing in list views with mixed record types. Both are off by default, and once layouts stop limiting edits, permissions are the only control."},
+  {c:"AUTO",d:"Intermediate",q:"Flow Builder's Edit History (Winter '27) lets an admin:",o:[
+    "See which users ran the flow and the record values each run produced",
+    "Undo the database changes made by any interview that ran in the past",
+    "Lock the flow so only its creator can save new versions from now on",
+    "Review earlier saves and restore one as a new version or a new flow"
+  ],a:3,e:"Edit History shows a timeline of saves for supported flow types. You can preview element-level changes and restore an earlier save as a new version, or copy it into a new flow. It tracks design changes, not run history or data."},
+  {c:"AUTO",d:"Intermediate",q:"Flow Test Mode (Beta, Winter '27) improves on the classic Debug tool mainly by letting you:",o:[
+    "Save repeatable test scenarios with pass/fail assertions in the builder",
+    "Run flows in production without committing any of their record changes",
+    "Skip validation rules and triggers so that the flow logic is tested alone",
+    "Convert a screen flow automatically into an equivalent Apex test class"
+  ],a:0,e:"Test Mode, enabled in Process Automation Settings, supports saved scenarios with assertions for record-triggered and autolaunched flows, and can mock the output of Action and Subflow elements so no real callout or subflow runs."},
+  {c:"AUTO",d:"Advanced",q:"What does the 'User Context—Enforces User Permissions' run option (flow API version 68.0+) guarantee for screen and autolaunched flows?",o:[
+    "It always runs in system context and ignores the running user's access",
+    "It enforces the running user's access even when called from system context",
+    "It runs as whoever last activated the flow instead of the current user",
+    "It runs with the access of whichever profile in the org has the most rights"
+  ],a:1,e:"A flow set to user context could previously inherit system context from its caller, such as Apex or another flow running in system mode. The new option blocks that inheritance, so the flow always respects the running user's permissions."},
+  {c:"AUTO",d:"Intermediate",q:"To run one screen flow against several records selected in a list view (Winter '27), the flow must include:",o:[
+    "A record-triggered Start element configured for the list's object",
+    "A Loop element that queries every record shown in the current list",
+    "An input text collection variable named ids to receive record IDs",
+    "A scheduled path so each selected record runs in its own batch"
+  ],a:2,e:"Screen flows can now be mass quick actions on list views and related lists. The selected record IDs are passed to an input text collection variable with the API name ids; related lists also pass the parent through a recordId text variable."},
+  {c:"AUTO",d:"Intermediate",q:"In Winter '27, Flow Builder warns at save time when a Create Records element that uses a record variable:",o:[
+    "Uses a record variable created in another version of the same flow",
+    "Leaves a required field empty when that's knowable at design time",
+    "Sits inside a loop, which Flow Builder now refuses to save at all",
+    "Targets an object that has any active validation rules defined"
+  ],a:1,e:"Save-time checks flag missing required-field values that can be determined at design time; values from subflows or input variables aren't checked. A related check warns when a value is likely to exceed a field's length. These are warnings, so fix them before the flow fails at runtime."},
+  {c:"AUTO",d:"Advanced",q:"A schedule-triggered flow hits governor limits on its default 200-record batches. Since Summer '26, an admin can:",o:[
+    "Raise the batch size to 2,000 so the flow finishes in fewer batches",
+    "Switch the flow to synchronous mode so limits no longer apply to it",
+    "Mark the flow bulk-safe, which exempts it from per-batch limits",
+    "Set a smaller batch size, from 1 to 200, on the Start element"
+  ],a:3,e:"Schedule-triggered flows now have a configurable batch size of 1 to 200 (default 200, runtime API version 63.0 or later). Smaller batches give each transaction more headroom without restructuring the flow."},
+  {c:"AUTO",d:"Intermediate",q:"What changed for Flow Orchestration in 2026?",o:[
+    "It became a standard flow type that no longer needs an add-on license",
+    "It was retired, and orchestrations were converted to approval processes",
+    "It was limited to Experience Cloud sites and removed from internal apps",
+    "It began requiring Apex code for every stage and step it orchestrates"
+  ],a:0,e:"Salesforce made orchestration a standard flow type with no add-on license; you create it from Flow Builder like any other flow type."},
+  {c:"AUTO",d:"Advanced",q:"In a flow approval process, a group step set to 'Require unanimous approval' does what when one member rejects?",o:[
+    "Ignores the rejection until a majority of the group has also rejected",
+    "Removes the rejecting member and continues with the remaining members",
+    "Fails the step and withdraws the other members' pending work items",
+    "Approves the record anyway, since rejections need a manager's sign-off"
+  ],a:2,e:"With unanimous approval, a single rejection fails the step and pending work items for the other members are withdrawn. Each member gets an individual work item, and work items on these steps can't be reassigned."},
+  {c:"ANALYTICS",d:"Intermediate",q:"As of Summer '26, how many row-level formulas can a single Lightning report contain?",o:[
+    "One, the same limit that applied before the release",
+    "Two, doubled from the earlier single-formula limit",
+    "Five per report, with no further restriction on use",
+    "Unlimited, bounded only by the report's column cap"
+  ],a:1,e:"Summer '26 raised the limit from one to two row-level formulas per report."},
+  {c:"ANALYTICS",d:"Intermediate",q:"Enabling 'Show record previews on Lightning Reports (Beta)' lets report viewers:",o:[
+    "Edit the source records inline without leaving the report's run page",
+    "See how each record looked at earlier points in its field history",
+    "Preview the report's results before saving changes to its filters",
+    "Open a record in a side preview without navigating away from the report"
+  ],a:3,e:"With the beta setting enabled in Reports and Dashboards Settings, users click the preview (eye) icon and then a record link to see the record in a side panel while keeping their place in the report."},
+  {c:"ANALYTICS",d:"Advanced",q:"In a joined report, the 'Common Rows Only' option (Beta, Winter '27) shows:",o:[
+    "Only records that appear in every block, such as accounts with cases",
+    "Only rows that share the same grouping value within a single block",
+    "Only columns that exist in all report types used by the joined report",
+    "Only records owned by users who share the running user's role level"
+  ],a:0,e:"Common Rows Only limits the joined report to records present in all of its blocks, for example only accounts that also have cases. It's a beta that Salesforce Support must enable."},
+  {c:"ANALYTICS",d:"Intermediate",q:"Summer '26 Themes and Branding support for report and dashboard charts lets an admin:",o:[
+    "Lock dashboards so viewers can't change any chart type or grouping",
+    "Stamp a custom logo watermark onto every exported report spreadsheet",
+    "Define brand colors once in a theme and apply them to report charts",
+    "Hide dashboard components from users who aren't in a branded app"
+  ],a:2,e:"Admins define brand colors in an active theme, then apply them through the Brand option in report chart properties or Branding in dashboard palette settings, instead of recoloring charts one at a time."},
+  {c:"DMGMT",d:"Intermediate",q:"Enabling 'Disable Formulas in Exported Reports' protects people who open exports in a spreadsheet by:",o:[
+    "Removing every numeric column from the exported report file entirely",
+    "Prefixing values that start with formula characters so they don't run",
+    "Encrypting the exported file so that only Salesforce can open it again",
+    "Blocking exports for any user without the Modify All Data permission"
+  ],a:1,e:"Values beginning with characters such as = or + can execute as spreadsheet formulas (formula injection). The setting prepends an apostrophe to those values; Summer '26 extended it from CSV exports to Excel exports."},
+  {c:"DEV",d:"Advanced",q:"As of Winter '27, what are the Apex heap size limits for synchronous and asynchronous transactions?",o:[
+    "6 MB synchronous and 12 MB asynchronous",
+    "10 MB synchronous and 25 MB asynchronous",
+    "12 MB synchronous and 50 MB asynchronous",
+    "Unlimited, since heap is no longer governed"
+  ],a:1,e:"Winter '27 raised the heap limit from 6 MB to 10 MB for synchronous Apex and from 12 MB to 25 MB for asynchronous Apex. During the rollout, non-production orgs offered an 'Enforce the Summer '26 Apex heap limit' setting so code could be tested against the old limits."},
+  {c:"DEV",d:"Advanced",q:"In Apex saved at API version 67.0 or later, SOQL, SOSL, and DML run by default in:",o:[
+    "System mode, ignoring object, field, and sharing access as before",
+    "System mode for queries, but user mode for DML statements only",
+    "Whatever mode the org's Apex Settings page has set as its default",
+    "User mode, enforcing the running user's object, field, and sharing access"
+  ],a:3,e:"Summer '26 (API 67.0) flipped the default from system mode to user mode. Code that needs elevated access must opt in explicitly, for example with AccessLevel.SYSTEM_MODE or without sharing. Classes at API 66.0 and earlier keep the old system-mode default."},
+  {c:"DEV",d:"Advanced",q:"An Apex class saved at API version 67.0 has no sharing keyword. How does it behave?",o:[
+    "As with sharing, enforcing the running user's record-level access",
+    "As without sharing, which has always been the default for classes",
+    "As inherited sharing, always copying the mode of its calling class",
+    "It fails to compile until a sharing keyword is explicitly added"
+  ],a:0,e:"From API 67.0, a class without an explicit declaration runs with sharing, and bypassing sharing requires an explicit without sharing. At 66.0 and earlier, the mode depended on context and was often without sharing for an entry point."},
+  {c:"DEV",d:"Advanced",q:"A query using WITH SECURITY_ENFORCED is moved into a class saved at API 67.0. What happens, and what replaces it?",o:[
+    "It runs unchanged, since the clause is still the preferred approach",
+    "It runs, but the clause is silently ignored, so nothing replaces it",
+    "It no longer compiles; use WITH USER_MODE or the user-mode default",
+    "It compiles only in test classes; production code needs a trigger"
+  ],a:2,e:"WITH SECURITY_ENFORCED isn't supported at API 67.0 and later. WITH USER_MODE, or simply the new user-mode default, replaces it; user mode also checks WHERE-clause fields and reports every inaccessible field."},
+  {c:"DEV",d:"Advanced",q:"Under the Summer '26 Apex security changes, how do Apex triggers handle sharing and access mode?",o:[
+    "They follow the API 67.0 default and run in user mode automatically",
+    "They always run in system mode and can't declare a sharing mode",
+    "They inherit the sharing keyword of the first class that they call",
+    "They run in user mode only when a record is edited through the UI"
+  ],a:1,e:"Triggers always run in system mode and can't declare a sharing or access mode, so security-sensitive logic belongs in a handler class with an explicit sharing declaration."},
+  {c:"DEV",d:"Advanced",q:"The SOQL FORMULA() function, introduced as a beta in Winter '27, lets developers:",o:[
+    "Create formula fields on an object directly from a SOQL statement",
+    "Call Flow formula resources from inside an Apex SOQL subquery",
+    "Replace aggregate functions like SUM and COUNT in GROUP BY queries",
+    "Do arithmetic across field values inside a WHERE clause filter"
+  ],a:3,e:"FORMULA() lets a WHERE clause compare calculated values across fields without a formula field or filtering in Apex. As a beta it's available in sandboxes, Developer Edition, and scratch orgs at API 68.0 or later, not in production."},
+  {c:"DEV",d:"Intermediate",q:"Complex template expressions in LWC, generally available in Winter '27, let developers:",o:[
+    "Use a broader subset of JavaScript expressions directly in templates",
+    "Write Apex statements inside a component's HTML template markup",
+    "Skip the JavaScript file entirely for any component that has logic",
+    "Embed SOQL in the template so data loads without a wire adapter"
+  ],a:0,e:"Templates used to allow only simple property references, which pushed logic into getters. Complex expressions (GA in Winter '27, component apiVersion 66.0 or later) allow more JavaScript expressions inline in the template."},
+  {c:"INT",d:"Intermediate",q:"In 2026 an admin can't find the 'New Connected App' button when setting up a new OAuth integration. What should they do?",o:[
+    "Turn on Connected Apps in Session Settings to bring the button back",
+    "Create an External Client App, which replaces Connected Apps",
+    "Use Remote Site Settings, which now issue OAuth consumer keys",
+    "Build the integration on a Named Credential with no authentication"
+  ],a:1,e:"Since Spring '26, creating new connected apps is disabled by default (it requires a request to Salesforce Support). External Client Apps are the replacement; existing connected apps can be migrated from App Manager, and connected app support ends in Summer '27."},
+  {c:"INT",d:"Advanced",q:"With the OAuth 2.0 username-password flow being retired, which replacements does Salesforce recommend?",o:[
+    "Store each user's password in a custom setting and send it per call",
+    "Move every integration to SOAP login() with a user security token",
+    "Use the device flow for both interactive users and backend services",
+    "Web server flow with PKCE for users; client credentials for servers"
+  ],a:3,e:"Salesforce recommends the web server flow with PKCE for user logins and the client credentials flow (or JWT bearer) for server-to-server integrations. External Client Apps don't support the username-password flow, and SOAP login() is also being retired for older API versions."},
+  {c:"INT",d:"Intermediate",q:"Winter '27 lets REST API callers use /services/data/latest/... instead of a version number. What does 'latest' do?",o:[
+    "Routes the request to the most recent API version the org supports",
+    "Returns only records modified since the caller's last request ran",
+    "Pins the request to the version in effect when the app was built",
+    "Sends the request to the newest preview release, not production"
+  ],a:0,e:"The latest keyword resolves to the newest REST API version the org supports, so URIs don't need manual version bumps. Integrations that need stable behavior across releases should still pin an explicit version."},
+  {c:"INT",d:"Advanced",q:"Salesforce's hosted MCP (Model Context Protocol) servers are mainly meant to:",o:[
+    "Replace the Bulk API for very large nightly data loads into the org",
+    "Copy the org's metadata to a backup server that runs outside Salesforce",
+    "Expose Salesforce data and tools to AI agents via a standard protocol",
+    "Host Experience Cloud sites on infrastructure outside of Salesforce"
+  ],a:2,e:"MCP is an open protocol that lets AI clients discover and call tools. Salesforce's hosted MCP servers (for example for SObject data, Data 360, and Tableau) expose org capabilities to agents and AI coding tools through one standard interface."},
+  {c:"DEPLOY",d:"Advanced",q:"The RunRelevantTests test level (beta since Spring '26) differs from RunLocalTests in that it:",o:[
+    "Runs every test in the org, including tests from managed packages",
+    "Runs only the tests Salesforce finds relevant to the deployed payload",
+    "Skips Apex tests entirely and relies on the target's last coverage run",
+    "Runs only the test classes the developer names in the deploy request"
+  ],a:1,e:"RunRelevantTests analyzes the deployment payload and its dependencies to choose tests, so test time scales with the size of the change. Tests can be annotated to always run, and classes and triggers in the deployment still need 75% coverage."},
+  {c:"DEPLOY",d:"Intermediate",q:"Web Console, introduced in Summer '26, is:",o:[
+    "A replacement for Setup Audit Trail that streams changes to a console",
+    "A command-line tool that must be installed locally to deploy metadata",
+    "A monitoring page that shows live API usage for each connected app",
+    "An in-org, browser-based IDE built on VS Code for the Web foundations"
+  ],a:3,e:"Web Console, which launched as a beta in Summer '26, is a lightweight IDE that runs in the browser inside the org, so developers can edit without a local install. It supports only Salesforce-provided extensions."},
+  {c:"PROD",d:"Intermediate",q:"In orgs created on Summer '26 or later, Chatter is:",o:[
+    "Permanently unavailable, replaced by Slack for all collaboration",
+    "On by default, with feed tracking enabled for every standard object",
+    "Off by default; an admin turns it on in Chatter Settings if needed",
+    "Available only to users who also hold an Experience Cloud license"
+  ],a:2,e:"Summer '26 made Chatter off by default in new orgs. Admins enable it in Chatter Settings and then choose objects for feed tracking."},
+  {c:"SERVICE",d:"Advanced",q:"Knowledge Blocks (Winter '27) help a Knowledge team by:",o:[
+    "Letting managed, read-only content be reused across many articles",
+    "Blocking agents from attaching articles to cases they don't own",
+    "Splitting long articles into separate records per data category",
+    "Holding article publication until a set of approvers signs off"
+  ],a:0,e:"Knowledge Blocks are centrally managed, read-only pieces of content (such as a standard disclaimer) reused across articles, so one update applies everywhere. They're enabled in Enhanced Knowledge Settings and require a Knowledge license."}
 ];
 
 const EXAM_PLAN = {
-  FUND: { Foundational: 7, Intermediate: 4, Advanced: 2 },
-  UMA: { Foundational: 4, Intermediate: 6, Advanced: 4 },
-  SEC: { Foundational: 2, Intermediate: 7, Advanced: 7 },
-  MODEL: { Foundational: 2, Intermediate: 7, Advanced: 5 },
+  FUND: { Foundational: 6, Intermediate: 4, Advanced: 2 },
+  UMA: { Foundational: 4, Intermediate: 5, Advanced: 4 },
+  SEC: { Foundational: 2, Intermediate: 6, Advanced: 7 },
+  MODEL: { Foundational: 2, Intermediate: 6, Advanced: 5 },
   DMGMT: { Foundational: 2, Intermediate: 5, Advanced: 4 },
   AUTO: { Foundational: 2, Intermediate: 8, Advanced: 7 },
-  SALES: { Foundational: 3, Intermediate: 7, Advanced: 3 },
-  SERVICE: { Foundational: 2, Intermediate: 6, Advanced: 4 },
+  SALES: { Foundational: 3, Intermediate: 6, Advanced: 3 },
+  SERVICE: { Foundational: 2, Intermediate: 5, Advanced: 4 },
   ANALYTICS: { Foundational: 2, Intermediate: 7, Advanced: 5 },
-  PROD: { Foundational: 4, Intermediate: 5, Advanced: 2 },
-  DEV: { Foundational: 2, Intermediate: 8, Advanced: 10 },
-  INT: { Foundational: 2, Intermediate: 5, Advanced: 6 },
-  DEPLOY: { Foundational: 2, Intermediate: 5, Advanced: 5 }
+  PROD: { Foundational: 4, Intermediate: 4, Advanced: 2 },
+  DEV: { Foundational: 2, Intermediate: 7, Advanced: 9 },
+  INT: { Foundational: 2, Intermediate: 5, Advanced: 5 },
+  DEPLOY: { Foundational: 2, Intermediate: 4, Advanced: 5 },
+  AI: { Foundational: 2, Intermediate: 5, Advanced: 4 }
 };
 const EXAM_SIZE = 180;
 
